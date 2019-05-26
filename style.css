@@ -1,0 +1,55 @@
+	html,body
+	{
+		margin: 10px;
+		box-sizing: content-box;
+		padding: 0px;
+		background-color: gray;
+		font-family: sans-serif;
+	}
+	.container
+	{
+		margin: 5px;
+	}
+	.heading
+	{
+		text-align: center;
+		font-size: 60px;
+		text-decoration: underline;
+	}
+	.serachdiv
+	{
+		margin: 10px;
+		display: flex;
+	}
+	.serachdiv input {
+		flex:3;
+	}
+	.serachdiv button {
+		flex: 1;
+	}
+	.table
+	{
+		text-align: center;
+	}
+	.table tr
+	{
+		margin: 10px;
+		vertical-align:baseline;
+	}
+	.table tr img
+	{
+		margin: 10px;
+	}
+	.tda a
+	{
+		background: yellow;
+		border-radius: 5px;
+		color: black;
+		font-weight: 500;
+		padding: 5px;
+	}
+	.table td
+	{
+		vertical-align:baseline;
+		text-align: center;
+	}
