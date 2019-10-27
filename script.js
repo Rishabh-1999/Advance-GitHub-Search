@@ -1,72 +1,75 @@
-var data=[];
+	var data=[];
 	var data1=[];
-		var searchinput=document.getElementById('serach-input');
-		var searchbtn=document.getElementById('serach-btn');
-		var table=document.getElementById('table');
-		function search()
+	var searchinput=document.getElementById('serach-input');
+	var searchbtn=document.getElementById('serach-btn');
+	var table=document.getElementById('table');
+	
+	// Search Function
+	function search()
+	{
+		if(searchinput.value=="")	//If search field id empty 
 		{
-			if(searchinput.value=="")
+			infofun(0);
+			return ;
+		}
+		
+		var xhr=new XMLHttpRequest();	// GET Request
+		xhr.open("GET","https://api.github.com/search/users?q="+searchinput.value,true);
+		xhr.onload=function()
+		{
+			var dataString=xhr.responseText;
+			data1=JSON.parse(dataString);
+			Object.assign({}, data1)
+			table.innerHTML="";
+			if(data1.items.length==0)
 			{
 				infofun(0);
 				return ;
 			}
-				var xhr=new XMLHttpRequest();
-				xhr.open("GET","https://api.github.com/search/users?q="+searchinput.value,true);
-				xhr.onload=function()
-				{
-					var dataString=xhr.responseText;
-					data1=JSON.parse(dataString);
-					Object.assign({}, data1)
-					console.log(data1);
-					table.innerHTML="";
-					if(data1.items.length==0)
-					{
-						infofun(0);
-						return ;
-					}
 
-					for(var i=0;i<data1.items.length;i++)
-						addToDom(data1.items[i]);
-						infofun(1);
-				}
-				xhr.send();
+			for(var i=0;i<data1.items.length;i++)
+				addToDom(data1.items[i]);
+				infofun(1);
 		}
-		function infofun(value)
+		xhr.send();
+	}
+		
+	function infofun(value)
+	{
+		info.innerHTML="";
+		var d1=document.createElement('div');
+		document.getElementById('info');
+		var s1=document.createElement('strong');
+		if(value==1)
 		{
-			info.innerHTML="";
-			var d1=document.createElement('div');
-			document.getElementById('info');
-			var s1=document.createElement('strong');
-			if(value==1)
-			{
-				d1.setAttribute("class","alert alert-success");
-				s1.innerHTML="Success!";
-				d1.appendChild(s1);
-				d1.innerHTML=d1.innerHTML+ " Data successful fetched and displayed";
-				info.appendChild(d1);
-			}
-			else
-			{
-				d1.setAttribute("class","alert alert-danger");
-				s1.innerHTML="Failed!";
-				d1.appendChild(s1);
-				d1.innerHTML=d1.innerHTML+ " No name GitHub User Exists";
-				info.appendChild(d1);
-			}
-
+			d1.setAttribute("class","alert alert-success");
+			s1.innerHTML="Success!";
+			d1.appendChild(s1);
+			d1.innerHTML=d1.innerHTML+ " Data successful fetched and displayed";
+			info.appendChild(d1);
 		}
-		var xhr=new XMLHttpRequest();
-		xhr.open("GET","https://api.github.com/users?since=1",true);
-		xhr.onload=function()
+		else
 		{
-			var dataString=xhr.responseText;
-			data=JSON.parse(dataString);
-			console.log(data);
-			for(i in data)
-			{
-				addToDom(data[i]);
-			}
+			d1.setAttribute("class","alert alert-danger");
+			s1.innerHTML="Failed!";
+			d1.appendChild(s1);
+			d1.innerHTML=d1.innerHTML+ " No name GitHub User Exists";
+			info.appendChild(d1);
 		}
+	}
+	
+	// Initiate Function
+	var xhr=new XMLHttpRequest();
+	xhr.open("GET","https://api.github.com/users?since=1",true);
+	xhr.onload=function()
+	{
+		var dataString=xhr.responseText;
+		data=JSON.parse(dataString);
+		for(i in data)
+		{
+			addToDom(data[i]);
+		}
+	}
 	xhr.send();
 
 	function addToDom(obj)
